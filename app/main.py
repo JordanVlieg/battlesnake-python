@@ -162,33 +162,38 @@ def pathFind(the_map, mapWidth, mapHeight, headX, headY, goalX, goalY):
 def buildMap(pData):
     data = pData
 
-    n = len(data["board"]) # horizontal size of the map
-    m = len(data["board"][0]) # vertical size of the map
+    n = data["width"] # horizontal size of the map
+    m = data["height"] # vertical size of the map
 
     the_map = []
     row = [0] * n
     for i in range(m): # create empty map
         the_map.append(list(row))
 
+    for snake in data["snakes"]:
+        for piece in snake:
+            the_map[piece[0]][piece[1]] = 1
 
+    return the_map, MapSize(n, m)
+
+'''
     #fill map with obsticles
     for x in range(0, n):
         for y in range(0, m):
-            if(data["board"][x][y]["state"] == "head" or data["board"][x][y]["state"] == "body"):
-                the_map[y][x] = 1
-                for snake1 in data["snakes"]:
-                    if snake1["name"] != SNAKE_NAME:
-                        headloc = snake1["coords"][0]
-                        if headloc[1]+1 < m:
-                            the_map[headloc[1]+1][headloc[0]] = 1
-                        if headloc[1]-1 > 0:
-                            the_map[headloc[1]-1][headloc[0]] = 1
-                        if headloc[0]+1 < n:
-                            the_map[headloc[1]][headloc[0]+1] = 1
-                        if headloc[0]-1 > 0:
-                            the_map[headloc[1]][headloc[0]-1] = 1
 
-    return the_map, MapSize(n, m)
+
+                if snake1["name"] != SNAKE_NAME:
+                    headloc = snake1["coords"][0]
+                    if headloc[1]+1 < m:
+                        the_map[headloc[1]+1][headloc[0]] = 1
+                    if headloc[1]-1 > 0:
+                        the_map[headloc[1]-1][headloc[0]] = 1
+                    if headloc[0]+1 < n:
+                        the_map[headloc[1]][headloc[0]+1] = 1
+                    if headloc[0]-1 > 0:
+                        the_map[headloc[1]][headloc[0]-1] = 1
+'''
+
 
 
 def findPath(pHead, pNode, the_map, map_size):
