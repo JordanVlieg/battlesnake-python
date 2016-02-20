@@ -229,15 +229,12 @@ def index():
 
 @bottle.post('/start')
 def start():
-    global SNAKE_NAME, SNAKE_COLOR, HEAD_URL, SNAKE_TAUNT
+    global SNAKE_TAUNT
     data = bottle.request.json
 
-    return json.dumps({
-        'name': SNAKE_NAME,
-        'color': SNAKE_COLOR,
-        'head_url': HEAD_URL,
+    return {
         'taunt': SNAKE_TAUNT
-    })
+    }
 
 
 @bottle.post('/move')
