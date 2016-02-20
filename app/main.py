@@ -260,7 +260,9 @@ def move():
     path = list()
 
     # Choose a strategy
+    print "Choosing a strategy:"
     if our_snake["health"] < 40:
+        print "Health"
         best_our_food_path = list()
         best_opponent_food_cost = 1000
 
@@ -283,6 +285,8 @@ def move():
         path = best_our_food_path
 
     elif len(coinTiles) > 0:
+        print "Coins"
+
         best_our_coin_path = list()
         best_opponent_coin_cost = 1000
 
@@ -304,6 +308,7 @@ def move():
 
         path = best_our_coin_path
     else:
+        print "Walls"
         goal = Tile(1, 1)
         head = our_snake[0]
 
@@ -316,6 +321,8 @@ def move():
         elif head == [1, map_height-2]:
             goal = Tile(1, 1)
 
+
+        print "Goal: " + goal.x + ", " + goal.y
 
         path = findPath(head, goal, map, map_size)
 
