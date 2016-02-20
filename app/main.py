@@ -169,9 +169,8 @@ def buildMap(pData):
     for i in range(m): # create empty map
         the_map.append(list(row))
 
-    for snake in data["snakes"]:
+    for snake in data["snakes"]["coords"]:
         for piece in snake:
-            print piece
             the_map[piece[0]][piece[1]] = 1
 
     return the_map, MapSize(n, m)
