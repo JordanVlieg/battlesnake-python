@@ -185,11 +185,9 @@ def buildMap(pData):
     return the_map, MapSize(n, m)
 
 
-def findNodeCost(pHead, pNode, the_map, map_size):
-    # Basically just run aStar and return cost
-    cost = len(pathFind(the_map, map_size.x, map_size.y, pHead.x, pHead.y, pNode.x, pNode.y))
-
-    return cost
+def findPath(pHead, pNode, the_map, map_size):
+    # Basically just run aStar
+    return pathFind(the_map, map_size.x, map_size.y, pHead.x, pHead.y, pNode.x, pNode.y)
 
 def findOurSnake(snakes):
     global SNAKE_NAME
@@ -247,31 +245,52 @@ def move():
     for coin in data["gold"]:
         coinTiles.append(Tile(coin[0], coin[1]))
 
-    goal = Tile(0, 0)
+    goal, path = Tile(0, 0), list()
 
     # Choose a strategy
     if our_snake["health"] < 40:
-        for food in foodTiles:
-            # Find our cost to food
-            our_cost = findNodeCost(our_snake, food)
+        best_our_food_path = list()
+        best_opponent_food_cost = 1000
+
+        for index, food in foodTiles:
+            our_path_current_food = findPath(our_snake, food, map, map_size)
+
+            best_opponent_cost = 1000
 
             for snake in other_snakes:
                 # find their cost to food
-                their_cost = findNodeCost(snake, food)
+                their_path = findPath(snake, food, map, map_size)
                 # If their cost - our cost < previous best, set that food as target
-                if their_cost < our_cost:
-                    goal = food
+                if len(their_path) - len(our_path_current_food) < best_opponent_food_cost:
+                    best_opponent_food_cost = len(their_path)
+
+            if best_opponent_cost < best_opponent_food_cost:
+                best_our_food_path = our_path_current_food
+                best_opponent_food_cost = best_opponent_cost
+
+        path = best_our_food_path
+
     elif len(coinTiles) > 0:
-        for coin in coinTiles:
-            # Find our cost to food
-            our_cost = findNodeCost(our_snake, coin)
+        best_our_coin_path = list()
+        best_opponent_coin_cost = 1000
+
+        for index, coin in coinTiles:
+            our_path_current_coin = findPath(our_snake, coin, map, map_size)
+
+            best_opponent_cost = 1000
 
             for snake in other_snakes:
-                # find their cost to food
-                their_cost = findNodeCost(snake, coin)
-                # If their cost - our cost < previous best, set that food as target
-                if their_cost < our_cost:
-                    goal = coin
+                # find their cost to coin
+                their_path = findPath(snake, coin, map, map_size)
+                # If their cost - our cost < previous best, set that coin as target
+                if len(their_path) - len(our_path_current_coin) < best_opponent_coin_cost:
+                    best_opponent_coin_cost = len(their_path)
+
+            if best_opponent_cost < best_opponent_coin_cost:
+                best_our_coin_path = our_path_current_coin
+                best_opponent_coin_cost = best_opponent_cost
+
+        path = best_our_coin_path
     else:
         """
         Find smallest between
