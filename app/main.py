@@ -271,7 +271,13 @@ def move():
                 # If their cost - our cost < previous best, set that food as target
                 if their_cost < our_cost:
                     goal = coin
-    #else:
+    else:
+        """
+        Find smallest between
+        map.size.x - current
+        """
+        if(map.size.x -
+        closestWall
         # Find closest edge and go in that direction
         # If against wall, turn to nearest corner
         # if in corner keep following wall
