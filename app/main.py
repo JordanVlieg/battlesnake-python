@@ -203,7 +203,7 @@ def findOurSnake(snakes):
     global SNAKE_NAME
 
     for snake in snakes:
-        if snake["name"] == SNAKE_NAME:
+        if snake.get("name") == SNAKE_NAME:
             return snake
 
 @bottle.route('/static/<path:path>')
