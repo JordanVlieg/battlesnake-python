@@ -5,7 +5,7 @@ from heapq import heappush, heappop
 import math
 
 HEAD_URL = "CoffeeBean.jpg"
-SNAKE_NAME = "c057977b-3428-4a38-a453-e5f2cb644eaa"
+SNAKE_ID = "c057977b-3428-4a38-a453-e5f2cb644eaa"
 SNAKE_COLOR = "#4d2800"
 SNAKE_TAUNT = "MMMMM Coffee"
 
@@ -200,10 +200,10 @@ def findPath(pHead, pNode, the_map, map_size):
     return pathFind(the_map, map_size.x, map_size.y, pHead.x, pHead.y, pNode.x, pNode.y)
 
 def findOurSnake(snakes):
-    global SNAKE_NAME
+    global SNAKE_ID
 
     for snake in snakes:
-        if snake.get("name") == SNAKE_NAME:
+        if snake.get("id") == SNAKE_ID:
             return snake
 
 @bottle.route('/static/<path:path>')
