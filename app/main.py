@@ -259,8 +259,9 @@ def move():
 
     for food in data.get("food"):
         foodTiles.append(Tile(food[0], food[1]))
-    for coin in data.get("gold"):
-        coinTiles.append(Tile(coin[0], coin[1]))
+    if data["gold"]:
+        for coin in data["gold"]:
+            coinTiles.append(Tile(coin[0], coin[1]))
 
     path = list()
 
