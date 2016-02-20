@@ -250,7 +250,8 @@ def move():
 
     our_snake = findOurSnake(snakes)
     our_snake_head = Tile(our_snake.get("coords")[0], our_snake.get("coords")[1])
-    other_snakes = snakes - our_snake
+    other_snakes = snakes
+    other_snakes.remove(our_snake)
 
     # Parse data for list of coin/food tiles
     foodTiles = list()
