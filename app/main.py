@@ -4,6 +4,13 @@ import os
 from heapq import heappush, heappop
 import math
 
+class map_size:
+    x = 0
+    y = 0
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
 class tile:
     x = 0
@@ -105,7 +112,7 @@ def pathFind(the_map, mapWidth, mapHeight, headX, headY, goalX, goalY):
                 path = c + path
                 x += dx[j]
                 y += dy[j]
-            return path[0]
+            return path
 
         # generate moves (child nodes) in all possible dirs
         for i in range(dirs):
@@ -179,8 +186,9 @@ def buildMap(pData):
     return mapList
 
 
-def findNodeCost(pHead, pNode):
+def findNodeCost(pHead, pNode, the_map, map_size):
     # Basically just run aStar and return cost
+    cost = len(pathFind(the_map, map_size.x, map_size.y, pHead.x, pHead.y, pNode.x, pNode.y))
 
     return cost
 
@@ -233,7 +241,12 @@ def move():
     foodTiles = list()
     coinTiles = list()
 
-    goal = tile
+    for food in data["food"]:
+        foodTiles.append(tile(food[0], food[1]))
+    for coin in data["gold"]:
+        coinTiles.append(tile(coin[0], coin[1]))
+
+    goal = tile()
 
     # Choose a strategy
     if our_snake["health"] < 40:
