@@ -231,6 +231,22 @@ def move():
 
     map, map_size = buildMap(data)
 
+    map_width = data["width"]
+    map_height = data["height"]
+
+    top_left_corner = [[0,0], [0,1], [1,0], [1,1]]
+    top_right_corner = [[map_width-2, 0], [map_width-1, 0], [map_width-2,1], [map_width-1,1]]
+    bottom_right_corner = [[map_width-2, map_height-2], [map_width-1, map_height-1], [map_width-2,map_height-1], [map_width-1,map_height-2]]
+    bottom_left_corner = [[0, map_height-2], [0, map_height-1], [1, map_height-2], [1, map_height-1]]
+
+    corners = []
+
+    for x in range(4):
+        corners.append(top_left_corner[x])
+        corners.append(top_right_corner[x])
+        corners.append(bottom_left_corner[x])
+        corners.append(bottom_right_corner[x])
+
     snakes = data.snakes
 
     our_snake = findOurSnake(snakes)
@@ -292,12 +308,18 @@ def move():
 
         path = best_our_coin_path
     else:
-        """
-        Find smallest between
-        map.size.x - current
-        """
-        if(map.size.x -
-        closestWall
+        goal = Tile(1, 1)
+        head = our_snake[0]
+
+        if head == [1, 1]:
+            goal = Tile(map.size.x -2, 1)
+        elif head == [map.size.x -2, 1]:
+            goal = Tile(map.size.x -2, map.size.y -2)
+        elif head == [map.size.x -2, map.size.y -2]:
+            goal = Tile(1, map.size.y -2)
+        elif head == [1, map.size.y -2]:
+            goal = Tile(1, 1)
+
         # Find closest edge and go in that direction
         # If against wall, turn to nearest corner
         # if in corner keep following wall
