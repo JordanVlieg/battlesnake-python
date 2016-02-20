@@ -259,7 +259,7 @@ def move():
 
     for food in data.get("food"):
         foodTiles.append(Tile(food[0], food[1]))
-    if data["gold"]:
+    if "gold" in data:
         for coin in data["gold"]:
             coinTiles.append(Tile(coin[0], coin[1]))
 
