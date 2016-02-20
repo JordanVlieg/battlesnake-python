@@ -243,29 +243,29 @@ def move():
 
     map, map_size = buildMap(data)
 
-    map_width = data["width"]
-    map_height = data["height"]
+    map_width = data.get("width")
+    map_height = data.get("height")
 
-    snakes = data.snakes
+    snakes = data.get("snakes")
 
     our_snake = findOurSnake(snakes)
-    our_snake_head = Tile(our_snake["coords"][0], our_snake["coords"][1])
+    our_snake_head = Tile(our_snake.get("coords")[0], our_snake.get("coords")[1])
     other_snakes = snakes - our_snake
 
     # Parse data for list of coin/food tiles
     foodTiles = list()
     coinTiles = list()
 
-    for food in data["food"]:
+    for food in data.get("food"):
         foodTiles.append(Tile(food[0], food[1]))
-    for coin in data["gold"]:
+    for coin in data.get("gold"):
         coinTiles.append(Tile(coin[0], coin[1]))
 
     path = list()
 
     # Choose a strategy
     print "Choosing a strategy:"
-    if our_snake["health"] < 40:
+    if our_snake.get("health") < 40:
         print "Health"
         best_our_food_path = list()
         best_opponent_food_cost = 1000
