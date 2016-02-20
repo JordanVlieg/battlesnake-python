@@ -4,7 +4,7 @@ import os
 from heapq import heappush, heappop
 import math
 
-HEAD_URL = "https://raw.githubusercontent.com/JordanVlieg/battlesnake-python/master/static/CoffeeBean.jpg"
+HEAD_URL = "CoffeeBean.jpg"
 SNAKE_NAME = "c057977b-3428-4a38-a453-e5f2cb644eaa"
 SNAKE_COLOR = "#4d2800"
 SNAKE_TAUNT = "MMMMM Coffee"
@@ -171,7 +171,7 @@ def buildMap(pData):
 
     for snake in data["snakes"]:
         for piece in snake:
-            the_map[piece[0]][piece[1]] = 1
+            the_map[int(piece[0])][int(piece[1])] = 1
 
     return the_map, MapSize(n, m)
 
