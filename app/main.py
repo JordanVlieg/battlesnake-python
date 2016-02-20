@@ -5,10 +5,9 @@ from heapq import heappush, heappop
 import math
 
 HEAD_URL = "https://raw.githubusercontent.com/JordanVlieg/battlesnake-python/master/static/CoffeeBean.jpg"
-SNAKE_NAME = "CaffeineSnake"
+SNAKE_NAME = "c057977b-3428-4a38-a453-e5f2cb644eaa"
 SNAKE_COLOR = "#4d2800"
 SNAKE_TAUNT = "MMMMM Coffee"
-
 
 class MapSize:
     x = 0
@@ -214,13 +213,16 @@ def static(path):
 
 @bottle.get('/')
 def index():
-    head_url = '%s://%s/static/head.png' % (
+    global SNAKE_COLOR, HEAD_URL
+
+    head_url = '%s://%s/static/%s' % (
         bottle.request.urlparts.scheme,
-        bottle.request.urlparts.netloc
+        bottle.request.urlparts.netloc,
+        HEAD_URL
     )
 
     return {
-        'color': '#00ff00',
+        'color': SNAKE_COLOR,
         'head': head_url
     }
 
