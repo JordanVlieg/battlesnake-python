@@ -237,6 +237,7 @@ def move():
     snakes = data.snakes
 
     our_snake = findOurSnake(snakes)
+    our_snake_head = Tile(our_snake["coords"][0], our_snake["coords"][1])
     other_snakes = snakes - our_snake
 
     # Parse data for list of coin/food tiles
@@ -248,7 +249,7 @@ def move():
     for coin in data["gold"]:
         coinTiles.append(Tile(coin[0], coin[1]))
 
-    goal, path = Tile(0, 0), list()
+    path = list()
 
     # Choose a strategy
     if our_snake["health"] < 40:
@@ -256,7 +257,7 @@ def move():
         best_opponent_food_cost = 1000
 
         for index, food in foodTiles:
-            our_path_current_food = findPath(our_snake, food, map, map_size)
+            our_path_current_food = findPath(our_snake_head, food, map, map_size)
 
             best_opponent_cost = 1000
 
@@ -278,7 +279,7 @@ def move():
         best_opponent_coin_cost = 1000
 
         for index, coin in coinTiles:
-            our_path_current_coin = findPath(our_snake, coin, map, map_size)
+            our_path_current_coin = findPath(our_snake_head, coin, map, map_size)
 
             best_opponent_cost = 1000
 
