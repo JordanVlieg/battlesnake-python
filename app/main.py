@@ -4,6 +4,12 @@ import os
 from heapq import heappush, heappop
 import math
 
+HEAD_URL = "https://raw.githubusercontent.com/JordanVlieg/battlesnake-python/master/static/CoffeeBean.jpg"
+SNAKE_NAME = "CaffeineSnake"
+SNAKE_COLOR = "#4d2800"
+SNAKE_TAUNT = "MMMMM Coffee"
+
+
 class MapSize:
     x = 0
     y = 0
@@ -216,13 +222,15 @@ def index():
 
 @bottle.post('/start')
 def start():
+    global SNAKE_NAME, SNAKE_COLOR, HEAD_URL, SNAKE_TAUNT
     data = bottle.request.json
 
-    # TODO: Do things with data
-
-    return {
-        'taunt': 'battlesnake-python!'
-    }
+    return json.dumps({
+        'name': SNAKE_NAME,
+        'color': SNAKE_COLOR,
+        'head_url': HEAD_URL,
+        'taunt': SNAKE_TAUNT
+    })
 
 
 @bottle.post('/move')
