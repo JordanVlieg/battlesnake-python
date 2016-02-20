@@ -323,16 +323,16 @@ def move():
         # if in corner keep following wall
 
     # Figure out required move to get to goal
-    Move = path[0]
-    our_move = "up"
+    Move = path[-1]
+    our_move = "default"
     if Move == "1":
-        our_move = "down"
+        our_move = "south"
     elif Move == "0":
-        our_move = "right"
+        our_move = "east"
     elif Move == "2":
-        our_move = "left"
+        our_move = "west"
     elif Move == "3":
-        our_move = "up"
+        our_move = "north"
 
     return {
         'move': our_move,
