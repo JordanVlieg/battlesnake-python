@@ -4,7 +4,7 @@ import os
 from heapq import heappush, heappop
 import math
 
-class map_size:
+class MapSize:
     x = 0
     y = 0
 
@@ -12,7 +12,7 @@ class map_size:
         self.x = x
         self.y = y
 
-class tile:
+class Tile:
     x = 0
     y = 0
 
@@ -21,7 +21,7 @@ class tile:
         self.y = y
 
 
-class node:
+class Node:
     xPos = 0 # x position
     yPos = 0 # y position
     distance = 0 # total distance already travelled to reach the node
@@ -83,7 +83,7 @@ def pathFind(the_map, mapWidth, mapHeight, headX, headY, goalX, goalY):
     pqi = 0 # priority queue index
 
     # create the start node and push into list of open nodes
-    n0 = node(headX, headY, 0, 0)
+    n0 = Node(headX, headY, 0, 0)
     n0.updatePriority(goalX, goalY)
     heappush(pq[pqi], n0)
     open_nodes_map[headY][headX] = n0.priority # mark it on the open nodes map
@@ -93,7 +93,7 @@ def pathFind(the_map, mapWidth, mapHeight, headX, headY, goalX, goalY):
         # get the current node w/ the highest priority
         # from the list of open nodes
         n1 = pq[pqi][0] # top node
-        n0 = node(n1.xPos, n1.yPos, n1.distance, n1.priority)
+        n0 = Node(n1.xPos, n1.yPos, n1.distance, n1.priority)
         x = n0.xPos
         y = n0.yPos
         heappop(pq[pqi]) # remove the node from the open list
@@ -121,7 +121,7 @@ def pathFind(the_map, mapWidth, mapHeight, headX, headY, goalX, goalY):
             if not (xdx < 0 or xdx > mapWidth-1 or ydy < 0 or ydy > mapHeight - 1
                     or the_map[ydy][xdx] == 1 or closed_nodes_map[ydy][xdx] == 1):
                 # generate a child node
-                m0 = node(xdx, ydy, n0.distance, n0.priority)
+                m0 = Node(xdx, ydy, n0.distance, n0.priority)
                 m0.nextMove(dirs, i)
                 m0.updatePriority(goalX, goalY)
                 # if it is not in the open list then add into that
@@ -182,8 +182,7 @@ def buildMap(pData):
                         if headloc[0]-1 > 0:
                             the_map[headloc[1]][headloc[0]-1] = 1
 
-
-    return mapList
+    return the_map, MapSize(n, m)
 
 
 def findNodeCost(pHead, pNode, the_map, map_size):
@@ -232,6 +231,8 @@ def start():
 def move():
     data = bottle.request.json
 
+    map, map_size = buildMap(data)
+
     snakes = data.snakes
 
     our_snake = findOurSnake(snakes)
@@ -242,11 +243,11 @@ def move():
     coinTiles = list()
 
     for food in data["food"]:
-        foodTiles.append(tile(food[0], food[1]))
+        foodTiles.append(Tile(food[0], food[1]))
     for coin in data["gold"]:
-        coinTiles.append(tile(coin[0], coin[1]))
+        coinTiles.append(Tile(coin[0], coin[1]))
 
-    goal = tile()
+    goal = Tile(0, 0)
 
     # Choose a strategy
     if our_snake["health"] < 40:
@@ -283,6 +284,7 @@ def move():
         # if in corner keep following wall
 
     # Figure out required move to get to goal
+
 
     return {
         'move': 'north',
