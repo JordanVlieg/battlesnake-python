@@ -264,7 +264,7 @@ def move():
 
             for snake in other_snakes:
                 # find their cost to food
-                their_path = findPath(snake, food, map, map_size)
+                their_path = findPath(Tile(snake.get("coords")[0], snake.get("coords")[1]), food, map, map_size)
                 # If their cost - our cost < previous best, set that food as target
                 if len(their_path) - len(our_path_current_food) < best_opponent_food_cost:
                     best_opponent_food_cost = len(their_path)
@@ -288,7 +288,7 @@ def move():
 
             for snake in other_snakes:
                 # find their cost to coin
-                their_path = findPath(snake, coin, map, map_size)
+                their_path = findPath(Tile(snake.get("coords")[0], snake.get("coords")[1]), coin, map, map_size)
                 # If their cost - our cost < previous best, set that coin as target
                 if len(their_path) - len(our_path_current_coin) < best_opponent_coin_cost:
                     best_opponent_coin_cost = len(their_path)
