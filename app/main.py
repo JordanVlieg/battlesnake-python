@@ -173,31 +173,11 @@ def buildMap(pData):
         for piece in snake.get("coords"):
             the_map[piece[0]][piece[1]] = 1
 
-    return the_map, MapSize(n, m)
-
-'''
-    #fill map with obsticles
-    for x in range(0, n):
-        for y in range(0, m):
-
-
-                if snake1["name"] != SNAKE_NAME:
-                    headloc = snake1["coords"][0]
-                    if headloc[1]+1 < m:
-                        the_map[headloc[1]+1][headloc[0]] = 1
-                    if headloc[1]-1 > 0:
-                        the_map[headloc[1]-1][headloc[0]] = 1
-                    if headloc[0]+1 < n:
-                        the_map[headloc[1]][headloc[0]+1] = 1
-                    if headloc[0]-1 > 0:
-                        the_map[headloc[1]][headloc[0]-1] = 1
-'''
-
-
+    return the_map, [n, m]
 
 def findPath(pHead, pNode, the_map, map_size):
     # Basically just run aStar
-    return pathFind(the_map, map_size.x, map_size.y, pHead.x, pHead.y, pNode.x, pNode.y)
+    return pathFind(the_map, map_size[0], map_size[1], pHead.x, pHead.y, pNode.x, pNode.y)
 
 def findOurSnake(snakes):
     global SNAKE_ID
@@ -242,6 +222,7 @@ def move():
     data = bottle.request.json
 
     map, map_size = buildMap(data)
+
 
     map_width = data.get("width")
     map_height = data.get("height")
@@ -329,6 +310,8 @@ def move():
 
 
         print "Goal: " + str(goal.x) + ", " + str(goal.y)
+
+        print map_size
 
         path = findPath(head, goal, map, map_size)
 
