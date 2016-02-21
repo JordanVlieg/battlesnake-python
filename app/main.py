@@ -230,7 +230,7 @@ def move():
     snakes = data.get("snakes")
 
     our_snake = findOurSnake(snakes)
-    our_snake_head = Tile(our_snake.get("coords")[0], our_snake.get("coords")[1])
+    our_snake_head = Tile(our_snake.get("coords")[0][0], our_snake.get("coords")[0][1])
     other_snakes = snakes
     other_snakes.remove(our_snake)
 
