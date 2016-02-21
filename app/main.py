@@ -252,7 +252,7 @@ def move():
 
     # Choose a strategy
     print "Choosing a strategy:"
-    if our_snake.get("health") < 40:
+    if True:
         print "Health"
         best_our_food_path = list()
         best_opponent_food_cost = 1000
