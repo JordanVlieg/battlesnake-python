@@ -328,7 +328,7 @@ def move():
             goal = Tile(1, 1)
 
 
-        print "Goal: " + goal.x + ", " + goal.y
+        print "Goal: " + str(goal.x) + ", " + str(goal.y)
 
         path = findPath(head, goal, map, map_size)
 
