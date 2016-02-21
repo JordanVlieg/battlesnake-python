@@ -298,6 +298,7 @@ def move():
         print "Walls"
         goal = Tile(1, 1)
         head = our_snake.get("coords")
+        head_tile = Tile(head[0], head[1])
 
         if head == [1, 1]:
             goal = Tile(map_width -2, 1)
@@ -311,7 +312,7 @@ def move():
 
         print "Goal: " + str(goal.x) + ", " + str(goal.y)
 
-        path = findPath(head, goal, map, map_size)
+        path = findPath(head_tile, goal, map, map_size)
 
         # Find closest edge and go in that direction
         # If against wall, turn to nearest corner
