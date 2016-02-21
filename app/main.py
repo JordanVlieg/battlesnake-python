@@ -297,7 +297,7 @@ def move():
     else:
         print "Walls"
         goal = Tile(1, 1)
-        head = our_snake.get("coords")
+        head = our_snake.get("coords")[0]
         head_tile = Tile(head[0], head[1])
 
         if head == [1, 1]:
