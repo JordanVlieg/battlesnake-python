@@ -233,10 +233,16 @@ def start():
 @bottle.post('/move')
 def move():
 
+    data = bottle.request.json
     global PREVIOUS
 
     Move = (PREVIOUS + 1) % 4
     PREVIOUS = Move
+    print PREVIOUS
+
+    #if data.get("health") < 20:
+
+
 
     our_move = "default"
     if Move == 0:
