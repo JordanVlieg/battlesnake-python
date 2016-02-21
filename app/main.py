@@ -300,18 +300,18 @@ def move():
         path = best_our_coin_path
     else:
         print "Walls"
-        goal = Tile(1, 1)
-        head = our_snake.get("coords")
+        goal = Tile(2, 2)
+        head = our_snake.get("coords")[0]
         head_tile = Tile(head[0], head[1])
 
-        if head == [1, 1]:
-            goal = Tile(map_width -2, 1)
-        elif head == [map_width -2, 1]:
-            goal = Tile(map_width -2, map_height -2)
-        elif head == [map_width-2, map_height -2]:
-            goal = Tile(1, map_height -2)
-        elif head == [1, map_height-2]:
-            goal = Tile(1, 1)
+        if head == [2, 2]:
+            goal = Tile(map_width -1, 2)
+        elif head == [map_width -1, 2]:
+            goal = Tile(map_width -1, map_height -1)
+        elif head == [map_width-1, map_height -1]:
+            goal = Tile(2, map_height -1)
+        elif head == [2, map_height-1]:
+            goal = Tile(2, 2)
 
 
         print "Goal: " + str(goal.x) + ", " + str(goal.y)
