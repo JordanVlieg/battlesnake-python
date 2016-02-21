@@ -9,6 +9,8 @@ SNAKE_ID = "c057977b-3428-4a38-a453-e5f2cb644eaa"
 SNAKE_COLOR = "#4d2800"
 SNAKE_TAUNT = "MMMMM Coffee"
 
+PREVIOUS = 0
+
 class MapSize:
     x = 0
     y = 0
@@ -230,152 +232,173 @@ def start():
 
 @bottle.post('/move')
 def move():
-    data = bottle.request.json
 
-    map, map_size = buildMap(data)
+    global PREVIOUS
 
-    map_width = data.get("width")
-    map_height = data.get("height")
+    Move = (PREVIOUS + 1) % 4
+    PREVIOUS = Move
 
-    snakes = data.get("snakes")
-
-    our_snake = findOurSnake(snakes)
-    our_snake_head = Tile(our_snake.get("coords")[0][0], our_snake.get("coords")[0][1])
-    other_snakes = snakes
-    other_snakes.remove(our_snake)
-
-    # Parse data for list of coin/food tiles
-    foodTiles = list()
-    coinTiles = list()
-
-    for food in data.get("food"):
-        foodTiles.append(Tile(food[0], food[1]))
-    if "gold" in data:
-        for coin in data["gold"]:
-            coinTiles.append(Tile(coin[0], coin[1]))
-
-    path = list()
-
-    # Choose a strategy
-    print "Choosing a strategy:"
-    if True:
-        print "Health"
-
-        path = findPath(our_snake_head, foodTiles[0], map, map_size)
-
-        # best_our_food_path = list()
-        # best_opponent_food_cost = 1000
-        #
-        # for food in foodTiles:
-        #     our_path_current_food = findPath(our_snake_head, food, map, map_size)
-        #
-        #     best_opponent_cost = 1000
-        #
-        #     for snake in other_snakes:
-        #         # find their cost to food
-        #         their_path = findPath(Tile(snake.get("coords")[0][0], snake.get("coords")[0][1]), food, map, map_size)
-        #         # If their cost - our cost < previous best, set that food as target
-        #         if len(their_path) - len(our_path_current_food) < best_opponent_food_cost:
-        #             best_opponent_food_cost = len(their_path)
-        #
-        #     if best_opponent_cost < best_opponent_food_cost:
-        #         best_our_food_path = our_path_current_food
-        #         best_opponent_food_cost = best_opponent_cost
-        #
-        # path = best_our_food_path
-
-    elif len(coinTiles) > 0:
-        print "Coins"
-
-        best_our_coin_path = list()
-        best_opponent_coin_cost = 1000
-
-        for coin in coinTiles:
-            our_path_current_coin = findPath(our_snake_head, coin, map, map_size)
-
-            best_opponent_cost = 1000
-
-            for snake in other_snakes:
-                # find their cost to coin
-                their_path = findPath(Tile(snake.get("coords")[0][0], snake.get("coords")[0][1]), coin, map, map_size)
-                # If their cost - our cost < previous best, set that coin as target
-                if len(their_path) - len(our_path_current_coin) < best_opponent_coin_cost:
-                    best_opponent_coin_cost = len(their_path)
-
-            if best_opponent_cost < best_opponent_coin_cost:
-                best_our_coin_path = our_path_current_coin
-                best_opponent_coin_cost = best_opponent_cost
-
-        path = best_our_coin_path
-    else:
-        print "Walls"
-        goal = Tile(2, 2)
-        head = our_snake.get("coords")[0]
-        head_tile = Tile(head[0], head[1])
-
-        if head == [2, 2]:
-            goal = Tile(map_width -1, 2)
-        elif head == [map_width -1, 2]:
-            goal = Tile(map_width -1, map_height -1)
-        elif head == [map_width-1, map_height -1]:
-            goal = Tile(2, map_height -1)
-        elif head == [2, map_height-1]:
-            goal = Tile(2, 2)
-
-
-        print "Goal: " + str(goal.x) + ", " + str(goal.y)
-
-        path = findPath(head_tile, goal, map, map_size)
-
-        # Find closest edge and go in that direction
-        # If against wall, turn to nearest corner
-        # if in corner keep following wall
-
-    head = our_snake.get("coords")[0]
-
-    # Figure out required move to get to goal
-    Move = path[-1]
-    neck = our_snake.get("coords")[1]
-    if(neck[0] > head[0] and Move == "0"):
-        Move = 1
-    if(neck[1] > head[1] and Move == "1"):
-        Move = 0
-    if(neck[1] < head[1] and Move == "3"):
-        Move = 0
-    if(neck[0] < head[0] and Move == "2"):
-        Move = 1
-
-    tempHead = list(head)
-    if Move == 1:
-        tempHead[1] = head[1] + 1
-    if Move == 0:
-        tempHead[0] = head[0] + 1
-    if Move == 2:
-        tempHead[0] = head[0] - 1
-    if Move == 3:
-        tempHead[1] = head[1] - 1
-
-    """if map[tempHead[0]][tempHead[1]] == 1:
-        Move += 1
-        Move % 4
-"""
     our_move = "default"
-    if Move == "1":
-        our_move = "south"
-    elif Move == "0":
-        our_move = "east"
-    elif Move == "2":
-        our_move = "west"
-    elif Move == "3":
-        our_move = "north"
-
-
-
+    if Move == 1:
+     our_move = "south"
+    elif Move == 0:
+     our_move = "east"
+    elif Move == 2:
+     our_move = "west"
+    elif Move == 3:
+     our_move = "north"
 
     return {
         'move': our_move,
         'taunt': 'battlesnake-python!'
     }
+
+#     data = bottle.request.json
+#
+#     map, map_size = buildMap(data)
+#
+#     map_width = data.get("width")
+#     map_height = data.get("height")
+#
+#     snakes = data.get("snakes")
+#
+#     our_snake = findOurSnake(snakes)
+#     our_snake_head = Tile(our_snake.get("coords")[0][0], our_snake.get("coords")[0][1])
+#     other_snakes = snakes
+#     other_snakes.remove(our_snake)
+#
+#     # Parse data for list of coin/food tiles
+#     foodTiles = list()
+#     coinTiles = list()
+#
+#     for food in data.get("food"):
+#         foodTiles.append(Tile(food[0], food[1]))
+#     if "gold" in data:
+#         for coin in data["gold"]:
+#             coinTiles.append(Tile(coin[0], coin[1]))
+#
+#     path = list()
+#
+#     # Choose a strategy
+#     print "Choosing a strategy:"
+#     if True:
+#         print "Health"
+#
+#         path = findPath(our_snake_head, foodTiles[0], map, map_size)
+#
+#         # best_our_food_path = list()
+#         # best_opponent_food_cost = 1000
+#         #
+#         # for food in foodTiles:
+#         #     our_path_current_food = findPath(our_snake_head, food, map, map_size)
+#         #
+#         #     best_opponent_cost = 1000
+#         #
+#         #     for snake in other_snakes:
+#         #         # find their cost to food
+#         #         their_path = findPath(Tile(snake.get("coords")[0][0], snake.get("coords")[0][1]), food, map, map_size)
+#         #         # If their cost - our cost < previous best, set that food as target
+#         #         if len(their_path) - len(our_path_current_food) < best_opponent_food_cost:
+#         #             best_opponent_food_cost = len(their_path)
+#         #
+#         #     if best_opponent_cost < best_opponent_food_cost:
+#         #         best_our_food_path = our_path_current_food
+#         #         best_opponent_food_cost = best_opponent_cost
+#         #
+#         # path = best_our_food_path
+#
+#     elif len(coinTiles) > 0:
+#         print "Coins"
+#
+#         best_our_coin_path = list()
+#         best_opponent_coin_cost = 1000
+#
+#         for coin in coinTiles:
+#             our_path_current_coin = findPath(our_snake_head, coin, map, map_size)
+#
+#             best_opponent_cost = 1000
+#
+#             for snake in other_snakes:
+#                 # find their cost to coin
+#                 their_path = findPath(Tile(snake.get("coords")[0][0], snake.get("coords")[0][1]), coin, map, map_size)
+#                 # If their cost - our cost < previous best, set that coin as target
+#                 if len(their_path) - len(our_path_current_coin) < best_opponent_coin_cost:
+#                     best_opponent_coin_cost = len(their_path)
+#
+#             if best_opponent_cost < best_opponent_coin_cost:
+#                 best_our_coin_path = our_path_current_coin
+#                 best_opponent_coin_cost = best_opponent_cost
+#
+#         path = best_our_coin_path
+#     else:
+#         print "Walls"
+#         goal = Tile(2, 2)
+#         head = our_snake.get("coords")[0]
+#         head_tile = Tile(head[0], head[1])
+#
+#         if head == [2, 2]:
+#             goal = Tile(map_width -1, 2)
+#         elif head == [map_width -1, 2]:
+#             goal = Tile(map_width -1, map_height -1)
+#         elif head == [map_width-1, map_height -1]:
+#             goal = Tile(2, map_height -1)
+#         elif head == [2, map_height-1]:
+#             goal = Tile(2, 2)
+#
+#
+#         print "Goal: " + str(goal.x) + ", " + str(goal.y)
+#
+#         path = findPath(head_tile, goal, map, map_size)
+#
+#         # Find closest edge and go in that direction
+#         # If against wall, turn to nearest corner
+#         # if in corner keep following wall
+#
+#     head = our_snake.get("coords")[0]
+#
+#     # Figure out required move to get to goal
+#     Move = path[-1]
+#     neck = our_snake.get("coords")[1]
+#     if(neck[0] > head[0] and Move == "0"):
+#         Move = 1
+#     if(neck[1] > head[1] and Move == "1"):
+#         Move = 0
+#     if(neck[1] < head[1] and Move == "3"):
+#         Move = 0
+#     if(neck[0] < head[0] and Move == "2"):
+#         Move = 1
+#
+#     tempHead = list(head)
+#     if Move == 1:
+#         tempHead[1] = head[1] + 1
+#     if Move == 0:
+#         tempHead[0] = head[0] + 1
+#     if Move == 2:
+#         tempHead[0] = head[0] - 1
+#     if Move == 3:
+#         tempHead[1] = head[1] - 1
+#
+#     """if map[tempHead[0]][tempHead[1]] == 1:
+#         Move += 1
+#         Move % 4
+# """
+#     our_move = "default"
+#     if Move == "1":
+#         our_move = "south"
+#     elif Move == "0":
+#         our_move = "east"
+#     elif Move == "2":
+#         our_move = "west"
+#     elif Move == "3":
+#         our_move = "north"
+#
+#
+#
+#
+#     return {
+#         'move': our_move,
+#         'taunt': 'battlesnake-python!'
+#     }
 
 
 @bottle.post('/end')
