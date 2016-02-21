@@ -254,26 +254,29 @@ def move():
     print "Choosing a strategy:"
     if True:
         print "Health"
-        best_our_food_path = list()
-        best_opponent_food_cost = 1000
 
-        for food in foodTiles:
-            our_path_current_food = findPath(our_snake_head, food, map, map_size)
+        path = findPath(our_snake_head, foodTiles[0], map, map_size)
 
-            best_opponent_cost = 1000
-
-            for snake in other_snakes:
-                # find their cost to food
-                their_path = findPath(Tile(snake.get("coords")[0][0], snake.get("coords")[0][1]), food, map, map_size)
-                # If their cost - our cost < previous best, set that food as target
-                if len(their_path) - len(our_path_current_food) < best_opponent_food_cost:
-                    best_opponent_food_cost = len(their_path)
-
-            if best_opponent_cost < best_opponent_food_cost:
-                best_our_food_path = our_path_current_food
-                best_opponent_food_cost = best_opponent_cost
-
-        path = best_our_food_path
+        # best_our_food_path = list()
+        # best_opponent_food_cost = 1000
+        #
+        # for food in foodTiles:
+        #     our_path_current_food = findPath(our_snake_head, food, map, map_size)
+        #
+        #     best_opponent_cost = 1000
+        #
+        #     for snake in other_snakes:
+        #         # find their cost to food
+        #         their_path = findPath(Tile(snake.get("coords")[0][0], snake.get("coords")[0][1]), food, map, map_size)
+        #         # If their cost - our cost < previous best, set that food as target
+        #         if len(their_path) - len(our_path_current_food) < best_opponent_food_cost:
+        #             best_opponent_food_cost = len(their_path)
+        #
+        #     if best_opponent_cost < best_opponent_food_cost:
+        #         best_our_food_path = our_path_current_food
+        #         best_opponent_food_cost = best_opponent_cost
+        #
+        # path = best_our_food_path
 
     elif len(coinTiles) > 0:
         print "Coins"
