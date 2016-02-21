@@ -257,7 +257,7 @@ def move():
         best_our_food_path = list()
         best_opponent_food_cost = 1000
 
-        for index, food in foodTiles:
+        for food in foodTiles:
             our_path_current_food = findPath(our_snake_head, food, map, map_size)
 
             best_opponent_cost = 1000
@@ -281,7 +281,7 @@ def move():
         best_our_coin_path = list()
         best_opponent_coin_cost = 1000
 
-        for index, coin in coinTiles:
+        for coin in coinTiles:
             our_path_current_coin = findPath(our_snake_head, coin, map, map_size)
 
             best_opponent_cost = 1000
