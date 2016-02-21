@@ -319,7 +319,16 @@ def move():
         # if in corner keep following wall
 
     # Figure out required move to get to goal
-    Move = path[-1]
+    Move = path[0]
+    neck = our_snake.get("coords")[1]
+    if(neck[0] > head[0] and Move == "0"):
+        Move = 1
+    if(neck[1] > head[1] and Move == "1"):
+        Move = 0
+    if(neck[1] < head[1] and Move == "3"):
+        Move = 0
+    if(neck[0] < head[0] and Move == "2"):
+        Move = 1
     our_move = "default"
     if Move == "1":
         our_move = "south"
