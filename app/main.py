@@ -328,7 +328,7 @@ def move():
     head = our_snake.get("coords")[0]
 
     # Figure out required move to get to goal
-    Move = path[0]
+    Move = path[-1]
     neck = our_snake.get("coords")[1]
     if(neck[0] > head[0] and Move == "0"):
         Move = 1
@@ -338,6 +338,21 @@ def move():
         Move = 0
     if(neck[0] < head[0] and Move == "2"):
         Move = 1
+
+    tempHead = list(head)
+    if Move == 1:
+        tempHead[1] = head[1] + 1
+    if Move == 0:
+        tempHead[0] = head[0] + 1
+    if Move == 2:
+        tempHead[0] = head[0] - 1
+    if Move == 3:
+        tempHead[1] = head[1] - 1
+
+    if map[tempHead[0]][tempHead[1]] == 1:
+        Move += 1
+        Move % 4
+
     our_move = "default"
     if Move == "1":
         our_move = "south"
@@ -347,6 +362,9 @@ def move():
         our_move = "west"
     elif Move == "3":
         our_move = "north"
+
+
+
 
     return {
         'move': our_move,
