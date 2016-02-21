@@ -311,8 +311,6 @@ def move():
 
         print "Goal: " + str(goal.x) + ", " + str(goal.y)
 
-        print map_size
-
         path = findPath(head, goal, map, map_size)
 
         # Find closest edge and go in that direction
