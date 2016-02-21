@@ -349,10 +349,10 @@ def move():
     if Move == 3:
         tempHead[1] = head[1] - 1
 
-    if map[tempHead[0]][tempHead[1]] == 1:
+    """if map[tempHead[0]][tempHead[1]] == 1:
         Move += 1
         Move % 4
-
+"""
     our_move = "default"
     if Move == "1":
         our_move = "south"
