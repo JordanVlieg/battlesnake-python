@@ -239,10 +239,10 @@ def move():
     PREVIOUS = Move
 
     our_move = "default"
-    if Move == 1:
-     our_move = "south"
-    elif Move == 0:
+    if Move == 0:
      our_move = "east"
+    elif Move == 1:
+     our_move = "south"
     elif Move == 2:
      our_move = "west"
     elif Move == 3:
@@ -250,7 +250,7 @@ def move():
 
     return {
         'move': our_move,
-        'taunt': 'battlesnake-python!'
+        'taunt': 'COFFEEEEEEE'
     }
 
 #     data = bottle.request.json
