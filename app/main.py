@@ -164,6 +164,7 @@ def buildMap(pData):
     n = data["width"] # horizontal size of the map
     m = data["height"] # vertical size of the map
 
+
     the_map = []
     row = [0] * n
     for i in range(m): # create empty map
@@ -172,6 +173,10 @@ def buildMap(pData):
     for snake in data.get("snakes"):
         for piece in snake.get("coords"):
             the_map[piece[0]][piece[1]] = 1
+
+    if "walls" in data:
+        for wall in data["walls"]:
+            the_map[wall[0]][wall[1]] = 1
 
     return the_map, [n, m]
 
@@ -222,7 +227,6 @@ def move():
     data = bottle.request.json
 
     map, map_size = buildMap(data)
-
 
     map_width = data.get("width")
     map_height = data.get("height")
