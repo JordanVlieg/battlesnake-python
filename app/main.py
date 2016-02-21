@@ -169,6 +169,12 @@ def buildMap(pData):
     row = [0] * n
     for i in range(m): # create empty map
         the_map.append(list(row))
+    for x in range(n):
+        the_map[x][0] = 1
+        the_map[x][m-1] = 1
+    for y in range(m):
+        the_map[0][y] = 1
+        the_map[n-1][y] = 1
 
     for snake in data.get("snakes"):
         for piece in snake.get("coords"):
