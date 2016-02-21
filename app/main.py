@@ -325,6 +325,8 @@ def move():
         # If against wall, turn to nearest corner
         # if in corner keep following wall
 
+    head = our_snake.get("coords")[0]
+
     # Figure out required move to get to goal
     Move = path[0]
     neck = our_snake.get("coords")[1]
